@@ -8,7 +8,6 @@ local settings = settings or require("settings")
 local textutils = textutils or require("textutils")
 local multishell = multishell or require("multishell")
 local peripheral = peripheral or require("peripheral")
-local http = http or require("http")
 local sleep = os.sleep
 
 --[[ +++ Configurable +++ ]]
