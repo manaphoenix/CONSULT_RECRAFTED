@@ -766,7 +766,8 @@ function file(event, ...)
             f.writeLine(sLine)
         end
         f.write("end local path=\""..sDir..".tmp"..sCurID.."\"")
-        f.write([[ local o,e=pcall(c)
+        f.write([[ local sleep = os.sleep
+        local o,e=pcall(c)
         if not o then
             term.setBackgroundColor(colors.black)
             term.setTextColor(colors.red)
