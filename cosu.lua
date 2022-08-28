@@ -1,3 +1,14 @@
+local keys = keys or require("keys")
+local colors = colors or require("colors")
+local term = term or require("term")
+local shell = shell or require("shell")
+local fs = fs or require("fs")
+local parallel = parallel or require("parallel")
+local settings = settings or require("settings")
+local textutils = textutils or require("textutils")
+local multishell = multishell or require("multishell")
+local sleep = os.sleep
+
 --[[ +++ Configurable +++ ]]
 local cosuConf = {}
 cosuConf.tKeyboard = {
@@ -21,7 +32,7 @@ cosuConf.tKeyboard = {
     }
 }
 cosuConf.bCursorIsBlock = false
-cosuConf.cAccentColor = colors.blue
+cosuConf.cAccentColor = colors.cyan
 cosuConf.bDoubleClickButton = false
 cosuConf.nTabSpace = 4 --[[ Normaly 4 spaces. ]]
 cosuConf.bJumpAtEndToBegin = true
