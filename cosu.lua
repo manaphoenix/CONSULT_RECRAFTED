@@ -8,7 +8,8 @@ local settings = settings or require("settings")
 local textutils = textutils or require("textutils")
 local multishell = multishell or require("multishell")
 local peripheral = peripheral or require("peripheral")
-local sleep = os.sleep
+local rc = require("rc")
+local sleep = rc.sleep
 
 --[[ +++ Configurable +++ ]]
 local cosuConf = {}
@@ -146,7 +147,7 @@ local tPatterns = {
     { "^[^%w_]", colorMatch["text"] }
 }
 local sGithub = {
-    ["api"] = "https://api.github.com/repos/manaphoenix/CONSULT_RECRAFTED/releases/latest",
+    ["api"] = "https://raw.githubusercontent.com/manaphoenix/CONSULT_RECRAFTED/main/cosu.lua",
     ["latest"] = "https://raw.githubusercontent.com/manaphoenix/CONSULT_RECRAFTED/main/cosu.lua"
 }
 local sVersion = "1.4.3"
@@ -257,6 +258,7 @@ local function swapColors()
     if not cosuConf.tPalette[1] then return end
     for color, code in pairs(cosuConf.tPalette) do
         if type(color) == "string" then
+            pcall(function() error("doing color: " .. tostring(code)) end)
             local tmp = colors.packRGB(term.getPaletteColor(colors[color]))
             term.setPaletteColor(colors[color], code)
             cosuConf.tPalette[color] = tmp
@@ -688,14 +690,15 @@ function file(event, ...)
             f.writeLine(sLine)
         end
         f.write("end local path=\"" .. sDir .. ".tmp" .. sCurID .. "\"")
-        f.write([[ local sleep = os.sleep
+        f.write([[ local sleep = require("rc").sleep
+        local term = require("term")
         local o,e=pcall(c)
         if not o then
             term.setBackgroundColor(colors.black)
             term.setTextColor(colors.red)
             print(e)
             term.setTextColor(colors.white)
-        end print("Press any key to exit") sleep(0.05) os.pullEvent("key") ]])
+        end print("Press any key to exit") sleep(0.05) require("rc").pullEvent("key") ]])
         f.close()
 
         if multishell then
@@ -2441,7 +2444,7 @@ end
 
 local function main()
     --[[ Input ]]
-    local event = { os.pullEventRaw() }
+    local event = { rc.pullEventRaw() }
 
     tCursor.lastY = tCursor.y
     inProgress(true)
@@ -2537,7 +2540,6 @@ parallel.waitForAny(
         end
     end
 )
-
 
 --[[ Clear mess ]]
 local sDir = '/' .. fs.getDir(shell.getRunningProgram()) .. '/'
